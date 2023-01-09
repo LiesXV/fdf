@@ -6,15 +6,15 @@
 #    By: ibenhaim <ibenhaim@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 13:10:41 by ibenhaim          #+#    #+#              #
-#    Updated: 2023/01/04 15:58:44 by ibenhaim         ###   ########.fr        #
+#    Updated: 2023/01/09 17:57:57 by ibenhaim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= fdf
-FLAGS		= -Wall -Werror -Wextra 
+FLAGS		= -Wall -Werror -Wextra
 
 HEADER		= fdf.h
-SRCS		= main.c parsing.c
+SRCS		= main.c parsing.c fdf_utils.c
 
 INCLUDES	= ./includes/
 DIR_SRCS	= ./srcs/
@@ -34,7 +34,7 @@ LFTNAME		= libft.a
 	${CC} ${FLAGS} -I mlx/ -c $< -o $@
 
 ${NAME}: libft mlx ${OBJS}
-	${CC} ${FLAGS} ${OBJS} ${DIR_LIB}${LFTNAME} -Lmlx -lmlx -framework OpenGL -framework AppKit -o ${NAME}
+	${CC} ${FLAGS} ${OBJS} ${DIR_LIB}${LFTNAME} -lm -Lmlx -lmlx -framework OpenGL -framework AppKit -o ${NAME}
 
 all : ${NAME}
 
