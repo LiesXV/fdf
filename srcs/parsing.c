@@ -6,7 +6,7 @@
 /*   By: ibenhaim <ibenhaim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:34:50 by ibenhaim          #+#    #+#             */
-/*   Updated: 2023/01/07 16:00:57 by ibenhaim         ###   ########.fr       */
+/*   Updated: 2023/01/11 12:49:02 by ibenhaim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	get_tab_size(t_map	*map, char	*pathname)
 			break ;
 		split = ft_split(line, ' ');
 		size = count_nbrs(split);
-		if (map->x == 0)
-			map->x = size;
-		else if (map->x != size)
+		if (map->length == 0)
+			map->length = size;
+		else if (map->length != size)
 			return (0);
-		map->y++;
+		map->height++;
 		free_all_char(split, line);
 	}
 	return (close(fd), 1);
@@ -53,26 +53,26 @@ int	get_tab_size(t_map	*map, char	*pathname)
 int	parsing(t_map *map, char *pathname)
 {
 	int		fd;
-	int		yy;
-	int		xx;
+	int		y;
+	int		x;
 	char	*line;
 	char	**split;
 
-	yy = 0;
+	y = 0;
 	fd = open(pathname, O_RDONLY);
 	if (fd == -1)
 		return (-1);
-	while (yy < map->y)
+	while (y < map->height)
 	{
 		line = get_next_line(fd);
 		split = ft_split(line, ' ');
-		xx = 0;
-		while (xx < map->x)
+		x = 0;
+		while (x < map->length)
 		{
-			map->tab[yy][xx] = ft_atoi(split[xx]);
-			xx++;
+			map->tab[y][x] = ft_atoi(split[x]);
+			x++;
 		}
-		yy++;
+		y++;
 		free_all_char(split, line);
 	}
 	return (close(fd), 1);
@@ -80,27 +80,28 @@ int	parsing(t_map *map, char *pathname)
 
 int	parse_map(t_map *map, char *pathname)
 {
-	int	xx;
+	int	x;
+	int	y;
 
-	xx = 0;
+	x = 0;
+	y = 0;
 	if (pathname == NULL)
 		return (0);
-	map->y = 0;
-	map->x = 0;
+	map->height = 0;
+	map->length = 0;
 	if (get_tab_size(map, pathname) == 0)
 		return (0);
-	map->tab = malloc(sizeof(int *) * map->y);
+	map->tab = malloc(sizeof(int *) * map->height);
 	if (map->tab == NULL)
 		return (0);
-	while (xx < map->x)
+	while (y < map->height)
 	{
-		map->tab[xx] = malloc(sizeof(int) * map->x);
-		if (map->tab[xx] == NULL)
+		map->tab[y] = malloc(sizeof(int) * map->length);
+		if (map->tab[y] == NULL)
 			return (free_all_int(map->tab), 0);
-		xx++;
+		y++;
 	}
 	if (parsing(map, pathname) == -1)
 		return (ft_printf("0"), 0);
-	// ft_printf("x = %d\ny = %d\n", map->x, map->y);
 	return (1);
 }

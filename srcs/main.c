@@ -6,82 +6,65 @@
 /*   By: ibenhaim <ibenhaim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:27:45 by ibenhaim          #+#    #+#             */
-/*   Updated: 2023/01/09 17:58:25 by ibenhaim         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:41:01 by ibenhaim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-int	deal_key(int key, t_map *map)
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
-	ft_printf("%d\n", key);
-	if (key == 53)
-	{
-		//free_all_int(map->tab);
-		mlx_destroy_window(map->mlx_ptr, map->win_ptr);
-		exit(0);
-	}
+	char	*dst;
+
+	if (x < 0 || x >= SIZEX || y < 0 || y >= SIZEY)
+		return ;
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}
+
+static int	render_next_frame(t_map *map)
+{
+	ft_memset(map->img.addr, 0, SIZEY * map->img.line_length);
+	draw_map(map);
+	mlx_put_image_to_window(map->mlx_ptr, map->win_ptr, map->img.img, 0, 0);
 	return (0);
 }
 
-void	put_square(t_map map, int x, int y, int color)
+int	init_map(t_map *map, char *pathname)
 {
-	int	xx;
-	int	yy;
+	int	test;
 
-	xx = x - 5;
-	yy = y - 5;
-	while (xx < x + 5)
-	{
-		while (yy < y + 5)
-		{
-			mlx_pixel_put(map.mlx_ptr, map.win_ptr, xx, yy, color);
-			yy++;
-		}
-		yy = y - 5;
-		xx++;
-	}
+	test = 0;
+	map->mlx_ptr = mlx_init();
+	map->win_ptr = mlx_new_window(map->mlx_ptr, SIZEX, SIZEY, "test");
+	map->img.img = mlx_new_image(map->mlx_ptr, SIZEX, SIZEY);
+	map->img.addr = mlx_get_data_addr(map->img.img, &map->img.bits_per_pixel, \
+									&map->img.line_length, &map->img.endian);
+	test = parse_map(map, pathname);
+	if (test == 0)
+		return (0);
+	map->space = 25;
+	map->rotation = 3.14;
+	map->zoom_height = 1;
+	map->offset_x = 0;
+	map->offset_y = 0;
+	return (1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_map	map;
 	char	*pathname;
-	int		y;
-	int		x;
-	int		ratio;
-	int		ratio2;
 
-	ratio = 100;
-	ratio2 = 100;
-	y = 0;
-	x = 0;
 	pathname = NULL;
-	if (argc == 2)
+	if (argc == 2 && !ft_strncmp(argv[1] + (ft_strlen(argv[1]) - 4), ".fdf", 4))
 		pathname = argv[1];
-	ft_printf("%s\n", pathname);
-	ft_printf("%d\n", parse_map(&map, pathname));
-	map.mlx_ptr = mlx_init();
-	map.win_ptr = mlx_new_window(map.mlx_ptr, map.x * 100, map.y * 100, "test");
-	while (y < map.y)
-	{
-		while (x < map.x)
-		{
-			ft_printf("x: %d\n", x);
-			if (x < map.x - 1)
-				draw_line(&map, ratio + x, ratio2 + y, ratio + x + 25, ratio2 + y, BLUE);
-			if (y < map.y - 1)
-				draw_line(&map, ratio + x, ratio2 + y, ratio + x, ratio2 + y + 25, BLUE);
-			mlx_pixel_put(map.mlx_ptr, map.win_ptr, ratio + x, ratio2 + y, RED);
-			ratio += 25;
-			x++;
-		}
-		x = 0;
-		ratio = 100;
-		y++;
-		ratio2 += 25;
-	}
-	//draw_line(&map, ratio + x, ratio2 + y, ratio + x + 25, ratio2 + y);
+	else
+		return (0);
+	if (init_map(&map, pathname) == 0)
+		return (ft_printf("map non générée"), 0);
 	mlx_key_hook(map.win_ptr, deal_key, &map);
+	mlx_loop_hook(map.mlx_ptr, render_next_frame, &map);
+	mlx_hook(map.win_ptr, 17, 0, ft_close, &map);
 	mlx_loop(map.mlx_ptr);
 }

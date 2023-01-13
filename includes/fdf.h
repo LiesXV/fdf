@@ -6,7 +6,7 @@
 /*   By: ibenhaim <ibenhaim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:13:56 by ibenhaim          #+#    #+#             */
-/*   Updated: 2023/01/09 17:23:21 by ibenhaim         ###   ########.fr       */
+/*   Updated: 2023/01/12 12:35:58 by ibenhaim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,50 @@
 # define BLUE		0x000000FF
 # define PURPLE		0x00800080
 
+typedef struct s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_data;
+
 typedef struct s_map
 {
+	t_data	img;
 	void	*mlx_ptr;
 	void	*win_ptr;
-	int		x;
-	int		y;
+	int		length;
+	int		height;
 	int		**tab;
+	int		space;
+	int		offset_x;
+	int		offset_y;
+	double	rotation;
+	double	zoom_height;
 }			t_map;
+
+typedef struct s_point {
+	double		x;
+	double		y;
+	double		z;
+}				t_point;
 
 int		parse_map(t_map *map, char *pathname);
 
-void	draw_line(t_map *map, int x_start, int y_start, int x_end, int y_end, int color);
+int		ft_close(t_map *map);
+
+void	check_line(t_map *map, int x, int y);
+
+void	draw_line(t_map *map, t_point xyz_start, t_point xyz_end);
+int		init_map(t_map *map, char *pathname);
+void	draw_map(t_map *map);
 
 void	free_all_char(char **tab, char *line);
 void	free_all_int(int **tab);
+
+int		deal_key(int key, t_map *map);
+
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+
 #endif
