@@ -6,7 +6,7 @@
 /*   By: ibenhaim <ibenhaim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 13:13:56 by ibenhaim          #+#    #+#             */
-/*   Updated: 2023/01/13 13:01:57 by ibenhaim         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:29:07 by ibenhaim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,7 @@
 # define SIZEY 1080
 
 # include "../mlx/mlx.h"
-# include <unistd.h>
 # include "../libn/libft.h"
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/stat.h>
 # include <fcntl.h>
 # include <math.h>
 

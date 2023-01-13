@@ -6,7 +6,7 @@
 /*   By: ibenhaim <ibenhaim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:27:45 by ibenhaim          #+#    #+#             */
-/*   Updated: 2023/01/13 14:22:21 by ibenhaim         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:30:23 by ibenhaim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv)
 	else
 		return (0);
 	if (init_map(&map, pathname) == 0)
-		return (ft_printf("map non générée"), 0);
+		return (ft_printf("map non générée\n"), 0);
 	mlx_key_hook(map.win_ptr, deal_key, &map);
 	mlx_loop_hook(map.mlx_ptr, render_next_frame, &map);
 	mlx_hook(map.win_ptr, 17, 0, ft_close, &map);
