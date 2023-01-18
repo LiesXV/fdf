@@ -6,7 +6,7 @@
 /*   By: ibenhaim <ibenhaim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 13:16:51 by ibenhaim          #+#    #+#             */
-/*   Updated: 2023/01/13 14:22:33 by ibenhaim         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:15:50 by ibenhaim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	deal_key(int key, t_map *map)
 
 int	ft_close(t_map *map)
 {
+	mlx_destroy_image(map->mlx_ptr, map->img.img);
 	mlx_destroy_window(map->mlx_ptr, map->win_ptr);
 	exit(0);
 	return (0);
