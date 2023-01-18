@@ -6,7 +6,7 @@
 /*   By: ibenhaim <ibenhaim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 11:20:51 by ibenhaim          #+#    #+#             */
-/*   Updated: 2023/01/18 13:14:04 by ibenhaim         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:49:47 by ibenhaim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	init_map(t_map *map, char *pathname)
 		return (0);
 	map->win_ptr = mlx_new_window(map->mlx_ptr, SIZEX, SIZEY, "42 Lyessou");
 	if (!map->win_ptr)
-		return (mlx_destroy_window(map->mlx_ptr, map->win_ptr), 0);
+		return (0);
 	map->img.img = mlx_new_image(map->mlx_ptr, SIZEX, SIZEY);
 	if (!map->img.img)
-		return (mlx_destroy_window(map->mlx_ptr, map->win_ptr), 0);
+		return (0);
 	map->img.addr = mlx_get_data_addr(map->img.img, &map->img.bits_per_pixel, \
 									&map->img.line_length, &map->img.endian);
 	test = parse_map(map, pathname);

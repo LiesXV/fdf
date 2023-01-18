@@ -6,7 +6,7 @@
 /*   By: ibenhaim <ibenhaim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:34:50 by ibenhaim          #+#    #+#             */
-/*   Updated: 2023/01/16 10:15:58 by ibenhaim         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:01:43 by ibenhaim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	get_tab_size(t_map	*map, char	*pathname)
 		if (map->length == 0)
 			map->length = size;
 		else if (map->length != size)
-			return (0);
+			return (free_all_char(split, line), 0);
 		map->height++;
 		free_all_char(split, line);
 	}

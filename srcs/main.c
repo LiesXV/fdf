@@ -6,7 +6,7 @@
 /*   By: ibenhaim <ibenhaim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 14:27:45 by ibenhaim          #+#    #+#             */
-/*   Updated: 2023/01/18 13:15:04 by ibenhaim         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:48:20 by ibenhaim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	main(int argc, char **argv)
 	if (argc == 2 && !ft_strncmp(argv[1] + (ft_strlen(argv[1]) - 4), ".fdf", 4))
 		pathname = argv[1];
 	else
-		return (ft_printf("map non générée\n"), 0);
+		return (ft_printf("arguments non valides.\n"), 0);
 	if (init_map(&map, pathname) == 0)
-		return (ft_printf("map non générée\n"), 0);
+		return (ft_close(&map), ft_printf("map non générée\n"), 0);
 	mlx_key_hook(map.win_ptr, deal_key, &map);
 	mlx_loop_hook(map.mlx_ptr, render_next_frame, &map);
 	mlx_hook(map.win_ptr, 17, 0, ft_close, &map);
